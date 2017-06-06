@@ -86,6 +86,27 @@ for i = 0:length(bits)/3 - 1
     end    
 end
 
+%% super-amostrando o sinal
+
+% z = zeros(15, length(symbolVector));
+% symbolVector2 = [symbolVector; z];
+% symbolVector2 = reshape(symbolVector2, 1, size(symbolVector2, 1)*size(symbolVector2, 2));
+
+%% filtro raiz de cosseno levantado
+
+symbolVector3 = [0 0 0 0 0 0 0 symbolVector];
+
+rolloff = 0.25;     % fator de rolloff
+span = 1;           % largura do filtro em símbolos
+sps = 16;           % qtde de amostras por símbolo
+std = 0.01;         % desvio padrão do ruído
+
+b = rcosdesign(rolloff, span, sps);         % design do filtro raiz quadrada de cosseno levantado
+x = upfirdn(symbolVector3, b, sps);         % upsample e filtragem para formatação de pulso               
+r = x  + randn(size(x))*std;                % adição de ruído Normal com média 0, desvio padrão std
+y = upfirdn(r, b, 1, sps);                  % downsample e filtro casado
+
+
 disp('finish')
             
     
