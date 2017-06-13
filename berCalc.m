@@ -1,4 +1,4 @@
-function [ ber ] = berCalc( bits, Eb, N0 )
+function [ ber, receivedSymbols ] = berCalc( bits, Eb, N0 )
 %BERCALC Summary of this function goes here
 %   Detailed explanation goes here
     symbolVector = [];
@@ -79,7 +79,7 @@ function [ ber ] = berCalc( bits, Eb, N0 )
     %% filtro raiz de cosseno levantado
 
     rolloff = 0.25;     % fator de rolloff
-    span = 12;           % largura do filtro em símbolos
+    span = 12;           % largura do filtro em símbolos  %se span < 12, o código não funcionará
     sps = 16;           % qtde de amostras por símbolo    
     std = sqrt(N0);         % desvio padrão do ruído
 
@@ -88,6 +88,7 @@ function [ ber ] = berCalc( bits, Eb, N0 )
     r = x  + randn(size(x))*std + 1j*randn(size(x))*std;    % adição de ruído Normal com média 0, desvio padrão std
     y = upfirdn(r, b, 1, sps);                  % downsample e filtro casado
     y = y(13:length(y)-12);                     % retirando a largura adicional devido á convolução com o filtro
+    receivedSymbols = y;
 
     
     %% extraindo sequência de bits do sinal transmitido
