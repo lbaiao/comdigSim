@@ -83,7 +83,7 @@ N0 = Eb./Eb_N0_pow;
 packSize = 50;
 per50B = zeros(1, it);
 throughput50B = zeros(1, it);
-packages = randi([0, 1], 1,1E5 + 5 + 10*8*(1E5 + 5)/packSize);      %gera os bits aleatórios e adiciona os bits de sincronização de modo a manter a divisibilidade da sequência por 3, para a correta modulação em 8-PSK
+packages = randi([0, 1], 1,1E5 + 5 + 10*8*(1E5 + 5)/packSize);      %gera os bits aleatórios e adiciona os bits de referência de modo a manter a divisibilidade da sequência por 3, para a correta modulação em 8-PSK
 
 for i=1:length(per50B)
     [per50B(i), throughput50B(i)] = perCalc(packages, packSize, Eb, N0(i));
@@ -131,5 +131,19 @@ semilogy(1:1:20, per200B)
 xlabel('Eb/N0 db');
 title({'PER x Eb/N0 para pacotes de 200B'});
 ylabel('PER');
+
+%% Plot throughput pelo tamanho do pacote
+
+packSizes = [50 100 200];
+throughputs = [throughput50B(10), throughput100B(10), throughput200B(10)];
+
+figure(9)
+plot(packSizes, throughputs, '*')
+xlabel('Tamanho dos pacotes (B)')
+ylabel('Throughput (b/Ts)')
+title('Throughput x Tamanho dos pacotes para Eb/N0 = 10db');
+
+
+
 
 disp('finished')
