@@ -143,7 +143,4 @@ xlabel('Tamanho dos pacotes (B)')
 ylabel('Throughput (b/Ts)')
 title('Throughput x Tamanho dos pacotes para Eb/N0 = 10db');
 
-
-
-
 disp('finished')

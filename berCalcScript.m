@@ -1,4 +1,4 @@
-%Comunicação Digitais - Simulação 1
+%Comunicações Digitais - Simulação 1
 %
 %
 %
